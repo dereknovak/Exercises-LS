@@ -1,0 +1,7 @@
+:"Name"
+
+i.e. :Derek
+
+https://docs.ruby-lang.org/en/3.2/Symbol.html
+
+"The same Symbol object will be created for a given name or string for the duration of a program’s execution, regardless of the context or meaning of that name. Thus if Fred is a constant in one context, a method in another, and a class in a third, the Symbol :Fred will be the same object in all three contexts."

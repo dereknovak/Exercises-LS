@@ -1,0 +1,5 @@
+Under 'Integer Literals' from the 'Class: Literals' page.
+
+https://docs.ruby-lang.org/en/3.2/syntax/literals_rdoc.html#label-Integer+Literals
+
+"The underscore may be used to enhance readability for humans. You may place an underscore anywhere in the number."

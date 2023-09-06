@@ -1,0 +1,5 @@
+...further down the page
+
+"break accepts a value that supplies the result of the expression it is “breaking” out of"
+
+This implies that, if no arguments are passed, break will return 'nil'. Otherwise, it will return the expressed value.
