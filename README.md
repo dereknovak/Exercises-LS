@@ -1,0 +1,1 @@
+Included in this repository are my completed Launch School exercises, found in the 'Exercises' tab on the homepage.
