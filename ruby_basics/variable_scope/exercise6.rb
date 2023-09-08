@@ -7,5 +7,5 @@ end
 my_value(a)
 puts a
 
-# 7 will print.
-# A, an integer, is not mutable.
+# An error will print.
+# The method is referencing a local variable that does not exist.
