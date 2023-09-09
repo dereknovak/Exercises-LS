@@ -8,4 +8,4 @@ end
 
 puts tricky_number
 
-# This will print an error as 'number' was never established as an argument.
+# The return value of variable assignment is the variable itself, (1).
