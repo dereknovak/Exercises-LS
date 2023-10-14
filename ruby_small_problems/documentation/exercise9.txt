@@ -1,0 +1,5 @@
+https://docs.ruby-lang.org/en/master/Psych.html#method-c-load_file
+
+Loads the document contained in `filename`. Returns the yaml contained in
+`filename` as a Ruby object, or if the file is empty, it returns the specified
+`fallback` return value, which defaults to `false`. See load for options.
