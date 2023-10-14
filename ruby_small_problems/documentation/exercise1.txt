@@ -1,0 +1,9 @@
+File::path https://docs.ruby-lang.org/en/3.2/File.html#method-c-path
+- Returns the string representation of the path
+
+File#path https://ruby-doc.org/2.7.8/File.html#method-i-path
+- Returns the pathname used to create `file` as a string. Does not normalize
+the name
+
+File::path can be used directly on the class itself, while File#path must have
+a new instance of a class declared in order for it to be used.
