@@ -1,4 +1,6 @@
-```Ruby a = "Xyzzy"
+What will the following code print, and why?
+```Ruby
+a = "Xyzzy"
 
 def my_value(b)
   b[2] = '-'

@@ -1,4 +1,6 @@
-```Ruby a = 7
+What will the following code print, and why?
+```Ruby
+a = 7
 
 def my_value(b)
   b += 10

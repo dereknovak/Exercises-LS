@@ -1,3 +1,4 @@
+What will the following code print, and why?
 ```Ruby
 a = 7
 
