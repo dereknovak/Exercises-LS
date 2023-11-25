@@ -1,0 +1,3 @@
+This example illustrates how Ruby approaches **method chaining**, which allows a method to be called on the *return value* of a previous method call while on the same line of code. It’s important to note that this does not mean that multiple methods are being called on the same object; it’s simply a chain of method invocation.
+
+On line 2, the `split` method is called on method local variable `str`, which returns the *new array object* `["hello", "world"]`. The iterative `each` method is then called on this new array, to which the destructive `reverse!` method is called within the `do...end` block. Because `str` and the array are separate objects, the `reverse!` has no effect on the value of `str`.
