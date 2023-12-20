@@ -38,18 +38,27 @@ END
 def balanced?(str)
   parentheses = str.chars.select { |char| char =~ /\(|\)/ }
   parentheses.each do |char|
-    if char == '('
-      
-    else
+    if char == ')'
       return false
+    else
+      if parentheses.any? { |char| char == ')' }
+        first_occurence = parentheses.index(')')
+        parentheses.delete_at(first_occurence)
+      else
+        return false
+      end
+    end
+  end
+
+  true 
 end
 
-# p balanced?('What (is) this?') == true
-# p balanced?('What is) this?') == false
-# p balanced?('What (is this?') == false
-p balanced?('((What) (is this))?') #== true
-# p balanced?('((What)) (is this))?') == false
-# p balanced?('Hey!') == true
-# p balanced?(')Hey!(') == false
-# p balanced?('What ((is))) up(') == false
-# p balanced?('What ())(is() up') == false
+p balanced?('What (is) this?') == true
+p balanced?('What is) this?') == false
+p balanced?('What (is this?') == false
+p balanced?('((What) (is this))?') == true
+p balanced?('((What)) (is this))?') == false
+p balanced?('Hey!') == true
+p balanced?(')Hey!(') == false
+p balanced?('What ((is))) up(') == false
+p balanced?('What ())(is() up') == false
