@@ -36,34 +36,38 @@ DEFINE scramble_words (str)
 END
 
 =end
-require 'pry'
 
-PUNCTUATION = ['.', ',', '-', "'"]
-
-def replace_punctuation!(word, new_arr, punctuation)
-
-  old_punc_idx = word.chars.index(punctuation)
-
-  new_arr.insert(old_punc_idx, punctuation)
+def isolate_punc(arr)
+  punc = []
+  punc_list = ['.', ',', '-', "'"]
+  
+  arr.each_with_index do |char, idx|
+    if punc_list.include?(char)
+      punc << [char, idx]
+    end
+  end
+  
+  punc
 end
+
+def insert_punc!(arr, punc)
+  punc.each { |subarr| arr.insert(subarr.last, subarr.first) }
+end  
 
 def scramble_words(str)
   words = str.split
   words.map! do |word|
     chars = word.chars
-
-    punctuation = chars.find { |el| PUNCTUATION.include?(el) }
-    chars.delete(punctuation)
-
+    punc = isolate_punc(chars)
+    punc.each { |arr| chars.delete(arr.first) } if punc
     first, last = chars.shift, chars.pop
-    new_chars = chars.sort
-    new_chars.unshift(first)
-    new_chars.push(last)
-    # binding.pry
-    replace_punctuation!(word, new_chars, punctuation) unless punctuation == nil
-    new_chars.join
+    chars.sort!
+    chars.unshift(first)
+    chars.push(last)
+    insert_punc!(chars, punc) if punc
+    chars.join
   end
-
+  
   words.join(' ')
 end
 
