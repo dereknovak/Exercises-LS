@@ -1,0 +1,1 @@
+Bird, Flyable, Animal, Object, Kernel, BasicObject
