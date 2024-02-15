@@ -19,7 +19,7 @@ class GuessingGame
   private
 
   attr_accessor :guess, :remaining_guesses
-  attr_reader :correct_num, :low, :high, :range
+  attr_reader :correct_num, :range
 
   def max_guesses
     Math.log2(@range.size).to_i + 1
