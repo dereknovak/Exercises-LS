@@ -48,9 +48,9 @@ class GuessingGame
 
   def display_guess_result
     case guess
-    when (low...correct_num) then too_low
-    when correct_num         then winner
-    else                          too_high
+    when (range.first...correct_num) then too_low
+    when correct_num                 then winner
+    else                                  too_high
     end
   end
 
