@@ -1,0 +1,3 @@
+When calling `super`, Ruby will automatically pass in all parameters that exist within the current instance method. Because `SongBird#initialize` contains 3 parameters, 3 arguments arguments are passed into it; however, `Animal#initialize` only accepts 2. To fix this, Ruby allows the user to specify which parameters are passed into `super`, so we can simply write `super(diet, superpower)`.
+
+The `FlightlessBird#initialize` method is not necessary due to class inheritance. Because `FlightlessBird` inherits from `Bird`, which inherits from `Animal`, the `Animal#initialiize` method is automatically available to any instances of `FlightlessBird`. Both methods perform the same action, therefore the method is redundant.
