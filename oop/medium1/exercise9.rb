@@ -5,17 +5,17 @@ class Deck
   SUITS = %w(Hearts Clubs Diamonds Spades).freeze
 
   def initialize
-    shuffle_cards
+    reset
   end
 
   def draw
-    shuffle_cards if cards.empty?
+    reset if cards.empty?
     cards.pop
   end
 
   private
 
-  def shuffle_cards
+  def reset
     @cards = RANKS.product(SUITS).map { |r, s| Card.new(r, s) }.shuffle
   end
 end
