@@ -22,7 +22,15 @@ class TextTest < Minitest::Test
     assert_equal expected, result
   end
 
+  def test_word_count
+    text = Text.new(@sample_text.read)
+
+    result = text.word_count
+    assert_equal 72, result
+  end
+
   def teardown
     @sample_text.close
+    puts "File has been close: #{@sample_text.closed?}"
   end
 end
