@@ -3,13 +3,13 @@ require_relative 'diamond'
 
 class DiamondTest < Minitest::Test
   def test_letter_a
-    skip
+    # skip
     answer = Diamond.make_diamond('A')
     assert_equal "A\n", answer
   end
 
   def test_letter_b
-    skip
+    # skip
     answer = Diamond.make_diamond('B')
     assert_equal " A \nB B\n A \n", answer
   end

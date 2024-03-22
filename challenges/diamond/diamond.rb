@@ -61,34 +61,43 @@ class Row
 end
 
 class Diamond
-  @@diamond = ""
-
-  def self.make_diamond(max_letter)
-    distance = max_letter.ord - 'A'.ord
-
-    ascending_rows(distance)
-    descending_rows(distance)
-
-    @@diamond
+  def initialize(max_letter)
+    @diamond = ''
+    create_diamond(max_letter)
   end
 
-  def self.ascending_rows(distance)
+  def display
+    @diamond
+  end
+
+  def self.make_diamond(max_letter)
+    Diamond.new(max_letter).display
+  end
+
+  private
+
+  def ascending_rows(distance)
     current_ord = 'A'.ord
 
     (distance).downto(1) do |spaces|
-      @@diamond << Row.new(current_ord.chr, spaces).display + "\n"
+      @diamond << "#{Row.new(current_ord.chr, spaces).display}\n"
       current_ord += 1
     end
   end
 
-  def self.descending_rows(distance)
+  def descending_rows(distance)
     current_ord = 'A'.ord + distance
 
     (distance + 1).times do |spaces|
-      @@diamond << Row.new(current_ord.chr, spaces).display + "\n"
+      @diamond << "#{Row.new(current_ord.chr, spaces).display}\n"
       current_ord -= 1
     end
   end
-end
 
-puts Diamond.make_diamond('E')
+  def create_diamond(max_letter)
+    distance = max_letter.ord - 'A'.ord
+
+    ascending_rows(distance)
+    descending_rows(distance)
+  end
+end
