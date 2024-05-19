@@ -1,0 +1,1 @@
+This example demonstrates a **meta-command** from `psql` and therefore does not fall into any of the SQL sub-languages.

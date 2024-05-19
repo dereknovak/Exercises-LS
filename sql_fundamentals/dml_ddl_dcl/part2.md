@@ -1,0 +1,1 @@
+This example uses the **Data Manipulation Language** because `SELECT` retrieves data from the specified column, which does not alter the structure of the table.

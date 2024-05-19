@@ -1,0 +1,1 @@
+This example uses the **Data Manipulation Language** because `INSERT` is adding *data* to the table rather than modifying its structure.

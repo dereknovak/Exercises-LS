@@ -1,0 +1,1 @@
+This example uses the **Data Manipulation Language** because `UPDATE` is modifying the *data* of the table rather than modifying its structure.

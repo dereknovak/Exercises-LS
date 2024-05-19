@@ -1,0 +1,1 @@
+This example uses the **Data Definition Lanugage** because `CREATE SEQUENCE` is modifying the database structure by adding a sequence object.

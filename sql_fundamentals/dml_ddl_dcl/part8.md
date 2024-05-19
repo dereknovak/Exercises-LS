@@ -1,0 +1,1 @@
+This example uses the **Data Manipulation Language** because `DELETE` modifies the data from a table by removing its respective row; however, the structure of the table itself is not change.

@@ -1,0 +1,1 @@
+This example uses the **Data Definition Lanuage** because `DROP DATABASE` is modifying the entire structure of the database by deleting it.
