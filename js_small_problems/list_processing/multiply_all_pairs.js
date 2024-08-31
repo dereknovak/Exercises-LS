@@ -36,6 +36,6 @@ function multiplyAllPairs(nums1, nums2) {
   }, []).sort(byNumericOrder);
 }
 
-const byNumericOrder = (a, b) => Number(a) - Number(b);
+const byNumericOrder = (a, b) => a - b;
 
 console.log(multiplyAllPairs([2, 4], [4, 3, 1, 2]));    // [2, 4, 4, 6, 8, 8, 12, 16]
