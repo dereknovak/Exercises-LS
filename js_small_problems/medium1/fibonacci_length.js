@@ -36,7 +36,7 @@ ALGORITHM
 
 function findFibonacciIndexByLength(numLength) {
   const sequence = [1n, 1n];
-  
+
   while (true) {
     const currentNum = sequence.slice(sequence.length - 2).reduce(sum);
     sequence.push(currentNum);
@@ -55,5 +55,5 @@ console.log(findFibonacciIndexByLength(3n) === 12n);   // 1 1 2 3 5 8 13 21 34 5
 console.log(findFibonacciIndexByLength(10n) === 45n);
 console.log(findFibonacciIndexByLength(16n) === 74n);
 console.log(findFibonacciIndexByLength(100n) === 476n);
-// console.log(findFibonacciIndexByLength(1000n) === 4782n);
-// console.log(findFibonacciIndexByLength(10000n) === 47847n);
+console.log(findFibonacciIndexByLength(1000n) === 4782n);
+console.log(findFibonacciIndexByLength(10000n) === 47847n);
