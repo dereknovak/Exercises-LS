@@ -63,45 +63,22 @@ ALGORITHM
 2. Return the new array
 */
 
-function switchGravityOn(arr) {
-  if (arr.length === 0) return null;
-
-  let hashtagMapping = [];
-  let nOfRows = arr.length;
-  let nOfColumns = arr[0].length;
-  for (let j = 0; j < nOfColumns; j++) {
-    hashtagMapping.push([j, 0]);
-  }
-
-  for (let i = 0; i < nOfRows; i++) {
-    for (let j = 0; j < nOfColumns; j++) {
-      if (arr[i][j] === "#") {
-        hashtagMapping.forEach(subArr => {
-          if (subArr[0] === j) subArr[1] += 1;
-        });
-      }
-    }
-  }
-
-  let answer = [];
-  for (let i = 0; i < nOfRows; i++) {
-    answer.push([]);
-    for (let j = 0; j < nOfColumns; j++) {
-      answer[i].push('-');
-    }
-  }
-
-  for (let i = 0; i < nOfRows; i++) {
-    for (let j = 0; j < nOfColumns; j++) {
-      hashtagMapping.forEach(subArr => {
-        if ((subArr[0] === j) && (i >= (nOfRows - subArr[1]))) {
-          answer[i][j] = "#";
+function switchGravityOn(blocks) {
+  blocks.forEach((_, row) => {
+    _.forEach((_, col) => {
+      if (blocks[row][col] === '#') {
+        for (let i = row + 1; i < blocks.length; i++) {
+          if (blocks[i][col] === '-') {
+            blocks[i][col] = '#';
+            blocks[row][col] = '-';
+            break;
+          }
         }
-      })
-    }
-  }
+      }
+    });
+  });
 
-  return answer;
+  return blocks;
 }
 
 // TEST CASES

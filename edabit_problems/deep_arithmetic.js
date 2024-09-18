@@ -51,8 +51,8 @@ ALGORITHM
 
 */
 
-function sum(array) {
-  return (String(array).match(/-?\d+/g) || []).map(Number).reduce(sumNumbers, 0);
+function sum(arr) {
+  return (String(arr).match(/-?\d+/g) || []).map(Number).reduce(sumNumbers, 0);
 }
 
 const sumNumbers = (a, b) => a + b;
