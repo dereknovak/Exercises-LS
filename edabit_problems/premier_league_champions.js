@@ -119,25 +119,11 @@ ALGORITHM
 
 function champions(teams) {
   const scores = teams.map(team => {
-    const results = { name: team.name, points: 0, goalDifference: 0 }
-    for (let property in team) {
-      switch (property) {
-        case 'wins':
-          results.points += (team[property] * 3);
-          break;
-        case 'draws':
-          results.points += (team[property] * 1);
-          break;
-        case 'scored':
-          results.goalDifference += team[property];
-          break;
-        case 'conceded':
-          results.goalDifference -= team[property];
-          break;
-      }
-    }
-
-    return results;
+    return {
+      name: team.name,
+      points: getPoints(team),
+      goalDifference: getGoalDifference(team)
+    };
   });
 
   const highestPoints = [];
@@ -153,9 +139,11 @@ function champions(teams) {
   }
 
   if (highestPoints.length === 1) return highestPoints[0].name;
-
-  return highestPoints.sort((a, b) => b.goalDifference - a.goalDifference)[0].name
+  return highestPoints.sort((a, b) => b.goalDifference - a.goalDifference)[0].name;
 }
+
+const getPoints = team => (team.wins * 3) + (team.loss * 0) + (team.draws * 1);
+const getGoalDifference = team => team.scored - team.conceded;
 
 // TEST CASES
 
