@@ -6,7 +6,7 @@ function kebabize(string) {
       kebabString += letter 
     } else if (/[A-Z]/.test(letter)) {
       kebabString += `-${letter.toLowerCase()}`;
-    }
+    }0
   });
 
   return kebabString[0] === '-' ? kebabString.slice(1) : kebabString;
