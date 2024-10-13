@@ -81,21 +81,21 @@ ALGORITHM
 3. Sort the copyarray from small to big
     - sort(a - b)
 4. Determine if there are any non-consecutive groups
-    - Use anyNonConsecutiveGroups HELPER
+    - Use allConsecutiveGroups HELPER
 5. Return true if all groups are consecutive
 
 HELPERS
-anyNonConsecutiveGroups(array, groupSize)
+allConsecutiveGroups(array, groupSize)
 - Iterate through array (for loop, i = 0, i < array length)
     - Initialize currentNum to array at i
     - Initialize count to 1
     - Use a while loop (count < groupSize)
         - Find indexOf currentNum + count in array (nextIdx)
-            - If -1, return true
+            - If -1, return false
         - Delete element in array at nextIdx
             - Splice 1 element at nextIdx
         - Increment count by 1
-- Return false
+- Return true
 
 */
 
@@ -104,26 +104,24 @@ function consecutiveNums(array, groupSize) {
   if (array.length % groupSize !== 0) return false;
 
   const copyArr = array.slice().sort((a, b) => a - b);
-  if (anyNonConsecutiveGroups(copyArr, groupSize)) return false;
-
-  return true;
+  return allConsecutiveGroups(copyArr, groupSize);
 }
 
-function anyNonConsecutiveGroups(array, groupSize) {
+function allConsecutiveGroups(array, groupSize) {
   for (let i = 0; i < array.length; i++) {
     const currentNum = array[i];
     let count = 1;
 
     while (count < groupSize) {
       const nextIdx = array.indexOf(currentNum + count);
-      if (nextIdx === -1) return true;
+      if (nextIdx === -1) return false;
       array.splice(nextIdx, 1);
 
       count += 1;
     }
   }
 
-  return false;
+  return true;
 }
 
 // TEST CASES
