@@ -5,25 +5,25 @@ function createStudent(name, year) {
     courses: [],
 
     info() {
-      console.log(`${this.name} is a ${year} student`);
+      console.log(`${this.name} is a ${this.year} year student.`);
     },
 
-    addCourse(course) {
-      this.courses.push(course);
+    addCourse(obj) {
+      this.courses.push(obj);
     },
 
     listCourses() {
-      return JSON.stringify(this.courses);
+      console.log(this.courses);
     },
 
     addNote(code, note) {
-      const course = this.courses.find(a => a.code === code);
-      
+      const course = this.courses.find(course => course.code === code);
+
       if (course) {
         if (course.note) {
-          course.note.push(note);
+          course.note += `; ${note}`;
         } else {
-          course.note = [note];
+          course.note = note;
         }
       } else {
         console.log('Course does not exist.');
@@ -31,32 +31,33 @@ function createStudent(name, year) {
     },
 
     updateNote(code, note) {
-      const course = this.courses.find(a => a.code === code);
+      const course = this.courses.find(course => course.code === code);
 
       if (course) {
-        course.note = [note];
+        course.note = note;
       } else {
         console.log('Course does not exist.');
       }
     },
 
     viewNotes() {
-      for (let course of this.courses) {
-        if (!course.note) continue;
-        console.log(`${course.name}: ${course.note.join('; ')}`);
-      }
+      this.courses.forEach(course => {
+        if (course.note) {
+          console.log(`${course.name}: ${course.note}`);
+        }
+      });
     },
-  }
+  };
 }
 
 let foo = createStudent('Foo', '1st');
 foo.info();
 // "Foo is a 1st year student"
-console.log(foo.listCourses());
+foo.listCourses();
 // [];
 foo.addCourse({ name: 'Math', code: 101 });
 foo.addCourse({ name: 'Advanced Math', code: 102 });
-console.log(foo.listCourses());
+foo.listCourses();
 // [{ name: 'Math', code: 101 }, { name: 'Advanced Math', code: 102 }]
 foo.addNote(101, 'Fun course');
 foo.addNote(101, 'Remember to study for algebra');
