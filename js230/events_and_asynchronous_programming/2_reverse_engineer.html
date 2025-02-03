@@ -1,0 +1,14 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('html').addEventListener('click', () => {
+      document.querySelector('#container').style = 'display: none';
+    }, true);
+
+    document.querySelector('#container').addEventListener('click', event => {
+      event.target.style = 'display: visible';
+    });
+  });
+</script>
+<html>
+  <h1 id='container'>I'm a container</h1>
+</html>
