@@ -1,0 +1,27 @@
+<head>
+  <style>
+    img {
+      display: block;
+      width: 15%;
+      margin-top: 10px;
+      cursor: auto;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('img').addEventListener('click', event => {
+        event.stopPropagation();
+      }, false);
+    });
+  </script>
+</head>
+<a href="https://www.launchschool.com">
+  Home
+  <img src='https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp'/>
+</a>
+
+<!-- Although `stopPropagation` is being used, this prevents parent elements'
+     events from being fired. This does *not* prevent default actions from
+     taking place. Because the image is nested within an anchor element, its
+     default action of following the link takes place. Instead, `preventDefault`
+     should be used. -->

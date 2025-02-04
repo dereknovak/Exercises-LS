@@ -1,0 +1,68 @@
+<script>
+  let animals;
+  let classes;
+  let selectAnimal;
+  let selectClass;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const OPTIONS = {
+      classes: {
+        'Vertibrate': ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+        'Warm-blooded': ['Bear', 'Whale', 'Osctrich'],
+        'Cold-blooded': ['Salmon', 'Turtle'],
+        'Mammal': ['Bear', 'Whale'],
+        'Bird': ['Ostrich'],
+      },
+
+      animals: {
+        'Bear': ['Vertibrate', 'Warm-blooded', 'Mammal'],
+        'Turtle': ['Vertebrate', 'Cold-blooded'],
+        'Whale': ['Vertebrate', 'Warm-blooded', 'Mammal'],
+        'Salmon': ['Vertebrate', 'Cold-blooded'],
+        'Ostrich': ['Vertebrate', 'Warm-blooded', 'Bird'],
+      },
+    }
+
+    function filterDropdown(element, filterValue) {
+      for (child in element.children) {
+        
+      }
+    }
+
+    animals = document.getElementById('animals');
+    classes = document.getElementById('animal-classifications');
+
+    classes.addEventListener('input', (e) => {
+      selectClass = e.target.value;
+    });
+    
+    animals.addEventListener('input', (e) => {
+      selectAnimal = e.target.value;
+    });
+
+
+
+
+  });
+</script>
+<form id="selection-filters" method="post" action="#">
+  <select id="animal-classifications">
+    <option value="Classifications" selected>Classifications</option>
+    <option value="Vertebrate">Vertebrate</option>
+    <option value="Warm-blooded">Warm-blooded</option>
+    <option value="Cold-blooded">Cold-blooded</option>
+    <option value="Mammal">Mammal</option>
+    <option value="Bird">Bird</option>
+  </select>
+  <select id="animals">
+    <option value="Animals" selected>Animals</option>
+    <option value="Bear">Bear</option>
+    <option value="Turtle">Turtle</option>
+    <option value="Whale">Whale</option>
+    <option value="Salmon">Salmon</option>
+    <option value="Ostrich">Ostrich</option>    
+  </select>
+  <button id="clear">Clear</button>  
+</form>
+
+<!-- Need to finish -->

@@ -4,20 +4,22 @@
     <meta charset="utf-8">
     <title>Bold Element + Custom</title>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', () => { 
         function makeBold(element, callback) {
-          const strong = document.createElement('strong');
-          strong.textContent = element.textContent;
-          element.textContent = '';
-          element.appendChild(strong);
+          element.style.fontWeight = 'bold';
+          const event = new CustomEvent('bolded');
 
-          callback();
+          element.dispatchEvent(event);
         }
 
         let sectionElement = document.querySelector('section');
-        makeBold(sectionElement, function(elem) {
-          elem.classList.add('highlight');
+
+        sectionElement.addEventListener('bolded', (e) => {
+          alert(e.target.tagName);
+          event.target.classList.add('highlight');
         });
+
+        makeBold(sectionElement);
 
         console.log(sectionElement.classList.contains('highlight'));
         console.log(sectionElement.style.fontWeight);
