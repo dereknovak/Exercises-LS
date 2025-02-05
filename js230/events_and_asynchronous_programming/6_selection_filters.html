@@ -7,15 +7,15 @@
   document.addEventListener('DOMContentLoaded', () => {
     const OPTIONS = {
       classes: {
-        'Vertibrate': ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
-        'Warm-blooded': ['Bear', 'Whale', 'Osctrich'],
+        'Vertebrate': ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+        'Warm-blooded': ['Bear', 'Whale', 'Ostrich'],
         'Cold-blooded': ['Salmon', 'Turtle'],
         'Mammal': ['Bear', 'Whale'],
         'Bird': ['Ostrich'],
       },
 
       animals: {
-        'Bear': ['Vertibrate', 'Warm-blooded', 'Mammal'],
+        'Bear': ['Vertebrate', 'Warm-blooded', 'Mammal'],
         'Turtle': ['Vertebrate', 'Cold-blooded'],
         'Whale': ['Vertebrate', 'Warm-blooded', 'Mammal'],
         'Salmon': ['Vertebrate', 'Cold-blooded'],
@@ -23,9 +23,27 @@
       },
     }
 
-    function filterDropdown(element, filterValue) {
-      for (child in element.children) {
+    function filterDropdown(filterValue) {
+      if (['Classifications', 'Animals'].includes(filterValue)) return;
+
+      if (Object.keys(OPTIONS.animals).includes(filterValue)) {
+
+        for (child of classes.children) {
+          if (OPTIONS.animals[filterValue].includes(child.value)) {
+            child.style.display = 'block';
+          } else {
+            child.style.display = 'none';
+          }
+        }
         
+      } else {
+        for (child of animals.children) {
+          if (OPTIONS.classes[filterValue].includes(child.value)) {
+            child.style.display = 'block';
+          } else {
+            child.style.display = 'none';
+          }
+        }
       }
     }
 
@@ -34,15 +52,13 @@
 
     classes.addEventListener('input', (e) => {
       selectClass = e.target.value;
+      filterDropdown(selectClass);
     });
     
     animals.addEventListener('input', (e) => {
       selectAnimal = e.target.value;
+      filterDropdown(selectAnimal);
     });
-
-
-
-
   });
 </script>
 <form id="selection-filters" method="post" action="#">
@@ -64,5 +80,3 @@
   </select>
   <button id="clear">Clear</button>  
 </form>
-
-<!-- Need to finish -->
