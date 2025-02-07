@@ -47,6 +47,34 @@
     </style>
 
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+        const fieldset = form.querySelector('fieldset');
+        const addButton = document.querySelector('button');
+        const formSubmitButton = document.getElementById('submit');
+        let fieldsetCount = 1;
+
+        function resetFields(fieldset) {
+          const inputs = fieldset.querySelectorAll('input');
+          console.log(inputs);
+          for (let input of inputs) {
+            input.value = '';
+          }
+        }
+
+        function generateScheduleForm(num) {
+          const newFieldset = fieldset.cloneNode(true);
+          newFieldset.querySelector('h3').textContent = `Schedule ${num}`;
+          newFieldset.setAttribute('id', `schedule-${num}`);
+          resetFields(newFieldset);
+          formSubmitButton.insertAdjacentElement('beforebegin', newFieldset);
+        }
+
+        addButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          generateScheduleForm(++fieldsetCount);
+        });
+      });
 
     </script>
   </head>
@@ -55,32 +83,35 @@
     <button type='submit'>Add more schedules</button>
 
     <form id='schedule' method='POST' action='/api/schedules'>
-      <dl id='schedule-1'>
-        <dt>
-          <label for='name'>Staff Name</label>
-        </dt>
-        <dd>
-          <input type='select' name='name' id='name'>
-        </dd>
+      <fieldset id='schedule-1'>
+        <h3>Schedule 1</h3>
+        <dl>
+          <dt>
+            <label for='staff_id'>Staff Name</label>
+          </dt>
+          <dd>
+            <input type='select' name='staff_id' id='staff_id'>
+          </dd>
 
-        <dt>
-          <label for='date'>Date</label>
-        </dt>
-        <dd>
-          <input type='date' name='date' id='date'>
-        </dd>
+          <dt>
+            <label for='date'>Date</label>
+          </dt>
+          <dd>
+            <input type='date' name='date' id='date'>
+          </dd>
 
-        <dt>
-          <label for='time'>Time</label>
-        </dt>
-        <dd>
-          <input type='text' name='time' id='time'>
-        </dd>
-      </dl>
+          <dt>
+            <label for='time'>Time</label>
+          </dt>
+          <dd>
+            <input type='time' name='time' id='time'>
+          </dd>
+        </dl>
+      </fieldset>
 
       <input id='submit' type='submit'>
     </form>
   </body>
 </html>
 
-<!-- Start from scratch. Too tired to finish today -->
+<!-- Got a late start today, but happy with the work I could do -->
