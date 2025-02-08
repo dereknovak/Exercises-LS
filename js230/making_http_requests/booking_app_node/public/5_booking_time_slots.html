@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Exercise 5</title>
+    <meta charset='UTF-8'>
+    <style>
+        #newStudentForm {
+            background: #ccc;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        let schedules;
+        let staffs;
+        const select = document.querySelector('select');
+
+        (() => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/schedules');
+
+          xhr.addEventListener('load', e => {
+            schedules = JSON.parse(xhr.response);
+          });
+
+          xhr.send();
+        })();
+
+        (() => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/staff_members');
+
+          xhr.addEventListener('load', e => {
+            staffs = JSON.parse(xhr.response);
+          });
+
+          xhr.send();
+        })();
+
+        function determineStaffName(id) {
+          return staffs.find(staff => staff.id === id).name;
+        }
+
+        select.addEventListener('click', e => {
+          for (schedule of schedules) {
+            const option = document.createElement('option');
+            let { id, staff_id, student_email, date, time } = schedule;
+            option.value = id;
+            option.textContent = `${determineStaffName(staff_id)} | ${date} | ${time}`;
+
+            select.appendChild(option);
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>Schedules</h1>
+
+    <form>
+      <dl>
+        <dt>
+          <label>Please select one schedule</label>
+        </dt>
+        <dd>
+          <select></select>
+        </dd>
+
+        <dt>
+          <label>Email:</label>
+        </dt>
+        <dd>
+          <input type='text'>
+        </dd>
+      </dl>
+
+      <input type='submit'>
+    </form>
+  </body>
+</html>
+
+<!-- Good start. -->
