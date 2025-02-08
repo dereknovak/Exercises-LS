@@ -53,10 +53,37 @@
         const addButton = document.querySelector('button');
         const formSubmitButton = document.getElementById('submit');
         let fieldsetCount = 1;
+        let staffs = [];
+
+        (() => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/staff_members');
+          xhr.responseType = 'json';
+
+          xhr.addEventListener('load', e => {
+            staffs = xhr.response;
+            populateStaffOptions();
+          });
+
+          xhr.send();
+        })();
+
+        function populateStaffOptions() {
+          const select = document.querySelector('select');
+
+          for (let staff of staffs) {
+            let { id, name } = staff;
+
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = name;
+
+            select.appendChild(option);
+          }
+        }
 
         function resetFields(fieldset) {
           const inputs = fieldset.querySelectorAll('input');
-          console.log(inputs);
           for (let input of inputs) {
             input.value = '';
           }
@@ -66,13 +93,56 @@
           const newFieldset = fieldset.cloneNode(true);
           newFieldset.querySelector('h3').textContent = `Schedule ${num}`;
           newFieldset.setAttribute('id', `schedule-${num}`);
+          newFieldset.querySelector('select').id = `staff_id_${num}`;
+
+          const inputs = newFieldset.querySelectorAll('input');
+          for (let input of inputs) {
+            input.setAttribute('id', input.id.slice(0, input.id.length - 1) + num);
+          }
+
           resetFields(newFieldset);
           formSubmitButton.insertAdjacentElement('beforebegin', newFieldset);
+        }
+
+        function getFormData() {
+          const data = [];
+
+          for (let num = 1; num <= fieldsetCount; num++) {
+            const schedule = {
+              staff_id: Number(form[`staff_id_${num}`].value),
+              date: form[`date_${num}`].value,
+              time: form[`time_${num}`].value,
+            };
+
+            data.push(schedule);
+          }
+
+          return { schedules: data };            
         }
 
         addButton.addEventListener('click', (e) => {
           e.preventDefault();
           generateScheduleForm(++fieldsetCount);
+        });
+
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+
+          const xhr = new XMLHttpRequest();
+          xhr.open(form.method, form.action);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          const data = getFormData();
+
+          xhr.addEventListener('load', e => {
+            if (xhr.status === 201) form.reset();
+            alert(xhr.responseText);
+          });
+
+          xhr.addEventListener('error', e => {
+            alert('Please check your inputs');
+          });
+
+          xhr.send(JSON.stringify(data));          
         });
       });
 
@@ -90,21 +160,21 @@
             <label for='staff_id'>Staff Name</label>
           </dt>
           <dd>
-            <input type='select' name='staff_id' id='staff_id'>
+            <select name='staff_id' id='staff_id_1'></select>
           </dd>
 
           <dt>
             <label for='date'>Date</label>
           </dt>
           <dd>
-            <input type='date' name='date' id='date'>
+            <input type='text' name='date' id='date_1' placeholder='mm-dd-yy'>
           </dd>
 
           <dt>
             <label for='time'>Time</label>
           </dt>
           <dd>
-            <input type='time' name='time' id='time'>
+            <input type='text' name='time' id='time_1' placeholder='hh:mm'>
           </dd>
         </dl>
       </fieldset>
