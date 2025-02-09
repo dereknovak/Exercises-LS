@@ -13,8 +13,10 @@
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        let schedules;
+        const form = document.querySelector('form');
+        let availableSchedules;
         let staffs;
+        let students;
         const select = document.querySelector('select');
 
         (() => {
@@ -22,7 +24,14 @@
           xhr.open('GET', '/api/schedules');
 
           xhr.addEventListener('load', e => {
-            schedules = JSON.parse(xhr.response);
+            availableSchedules = JSON.parse(xhr.response)
+                                     .filter(schedule => !schedule.student_email)
+                                     .sort((a, b) => {
+                                       a = Number(a.time.replace(':', ''));
+                                       b = Number(b.time.replace(':', ''));
+
+                                       return a - b;
+                                     });
           });
 
           xhr.send();
@@ -39,12 +48,102 @@
           xhr.send();
         })();
 
+        (() => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/students');
+
+          xhr.addEventListener('load', e => {
+            students = JSON.parse(xhr.response);
+          });
+
+          xhr.send();
+        })();
+
         function determineStaffName(id) {
           return staffs.find(staff => staff.id === id).name;
         }
 
+        function generateNewStudentForm(bookingSequence) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/api/students';
+          document.body.appendChild(form);
+
+          const h1 = document.createElement('h1');
+          h1.textContent = 'Please provide new student details';
+          form.appendChild(h1);
+
+          const dl = document.createElement('dl');
+          form.appendChild(dl);
+
+          const dtEmail = document.createElement('dt');
+          const labelEmail = document.createElement('label');
+          const ddEmail = document.createElement('dd');
+          const inputEmail = document.createElement('input');
+          labelEmail.setAttribute('for', 'email');
+          labelEmail.textContent = 'Email:';
+          inputEmail.type = 'email';
+          inputEmail.name = 'email';
+          dl.appendChild(dtEmail);
+          dl.appendChild(ddEmail);
+          dtEmail.appendChild(labelEmail);
+          ddEmail.appendChild(inputEmail);
+          
+          const dtName = document.createElement('dt');
+          const labelName = document.createElement('label');
+          const ddName = document.createElement('dd');
+          const inputName = document.createElement('input');
+          labelName.setAttribute('for', 'name');
+          labelName.textContent = 'Name:'
+          inputName.type = 'text';
+          inputName.name = 'name';
+          dl.appendChild(dtName);
+          dl.appendChild(ddName);
+          dtName.appendChild(labelName);
+          ddName.appendChild(inputName);
+
+          const dtBookingSequence = document.createElement('dt');
+          const labelBookingSequence = document.createElement('label');
+          const ddBookingSequence = document.createElement('dd');
+          const inputBookingSequence = document.createElement('input');
+          labelBookingSequence.setAttribute('for', 'booking_sequence');
+          labelBookingSequence.textContent = 'Booking Sequence:';
+          inputBookingSequence.type = 'text';
+          inputBookingSequence.name = 'booking_sequence';
+          inputBookingSequence.value = bookingSequence;
+          dl.appendChild(dtBookingSequence);
+          dl.appendChild(ddBookingSequence);
+          dtBookingSequence.appendChild(labelBookingSequence);
+          ddBookingSequence.appendChild(inputBookingSequence);
+
+          const submit = document.createElement('input');
+          submit.type = 'submit';
+          form.appendChild(submit);
+
+          return form;
+        }
+
+        function addNewStudent(newStudentForm) {
+          const xhr = new XMLHttpRequest();
+          xhr.open(newStudentForm.method, newStudentForm.action);
+          const data = new FormData();
+          const json = formDataToJson(data);
+          console.log(JSON.stringify([data.entries()]));
+          console.log(json);
+        }
+
+        function formDataToJson(formData) {
+          const json = {};
+
+          for (let pair of formData.entries()) {
+            json[pair[0]] = pair[1];
+          }
+
+          return json;
+        }
+
         select.addEventListener('click', e => {
-          for (schedule of schedules) {
+          for (schedule of availableSchedules) {
             const option = document.createElement('option');
             let { id, staff_id, student_email, date, time } = schedule;
             option.value = id;
@@ -53,6 +152,36 @@
             select.appendChild(option);
           }
         });
+
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+
+          const id = document.querySelector('select').value;
+          const student_email = form['input-email'].value;
+          const data = { id, student_email };
+
+          const xhr = new XMLHttpRequest();
+          xhr.open(form.method, form.action);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify(data));
+          
+          xhr.addEventListener('load', e => {
+            if (xhr.status === 404) {
+              alert(xhr.responseText);
+              const bookingSequence = Number(xhr.responseText.match(/\d+/)[0]);
+              const newStudentForm = generateNewStudentForm(bookingSequence);
+              
+              newStudentForm.addEventListener('submit', e => {
+                e.preventDefault();
+
+                addNewStudent(newStudentForm);
+              });
+            }
+          });
+
+        });
+
+        
       });
     </script>
   </head>
@@ -60,7 +189,7 @@
   <body>
     <h1>Schedules</h1>
 
-    <form>
+    <form method='post' action='/api/bookings'>
       <dl>
         <dt>
           <label>Please select one schedule</label>
@@ -73,7 +202,7 @@
           <label>Email:</label>
         </dt>
         <dd>
-          <input type='text'>
+          <input type='text' id='input-email'>
         </dd>
       </dl>
 
@@ -82,4 +211,4 @@
   </body>
 </html>
 
-<!-- Good start. -->
+<!-- A lot of work done. Stuck on pulling the form data from the new student form -->
