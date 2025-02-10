@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang='en-US'>
+  <head>
+    <title>Exercise 6</title>
+    <meta charset='UTF-8'>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const ulDates = document.createElement('ul');
+        document.body.appendChild(ulDates);
+        let dates;
+
+        (() => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/bookings');
+          xhr.responseType = 'json';
+
+          xhr.addEventListener('load', () => {
+            dates = xhr.response;
+            console.log(dates);
+
+            for (let date of dates) {
+              const li = document.createElement('li');
+              li.textContent = date;
+
+              ulDates.appendChild(li);
+            }
+          });
+
+          xhr.send();
+        })();
+
+        ulDates.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          let bookings;
+
+          (() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/bookings/${e.target.textContent}`);
+            xhr.responseType = 'json';
+
+            xhr.addEventListener('load', () => {
+              bookings = xhr.response;
+              console.log(bookings);
+
+              const ulBookings = document.createElement('ul');
+              e.target.appendChild(ulBookings);
+
+              for (let booking of bookings) {
+                const li = document.createElement('li');
+                const staff_name = booking[0];
+                const student_email = booking[1];
+                const time = booking[2];
+
+                li.textContent = `${staff_name} | ${student_email} | ${time}`;
+                ulBookings.appendChild(li);
+              }
+            });
+
+            xhr.send();
+          })();
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>Bookings</h1>
+  </body>
+</html>

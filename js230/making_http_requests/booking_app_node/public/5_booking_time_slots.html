@@ -124,12 +124,7 @@
         }
 
         function addNewStudent(newStudentForm) {
-          const xhr = new XMLHttpRequest();
-          xhr.open(newStudentForm.method, newStudentForm.action);
-          const data = new FormData();
-          const json = formDataToJson(data);
-          console.log(JSON.stringify([data.entries()]));
-          console.log(json);
+ 
         }
 
         function formDataToJson(formData) {
@@ -156,17 +151,22 @@
         form.addEventListener('submit', e => {
           e.preventDefault();
 
-          const id = document.querySelector('select').value;
-          const student_email = form['input-email'].value;
-          const data = { id, student_email };
+          const newScheduleData = new FormData(form);
+          const json = JSON.stringify(formDataToJson(newScheduleData));
+
+          console.log(json); // Should be an object with inputs from form
 
           const xhr = new XMLHttpRequest();
           xhr.open(form.method, form.action);
           xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.send(JSON.stringify(data));
+ 
+          xhr.send(json);
           
           xhr.addEventListener('load', e => {
-            if (xhr.status === 404) {
+            if (xhr.status === 204) {
+              alert('Booked');
+              window.location.href = '/5_booking_time_slots.html';
+            } else if (xhr.status === 404) {
               alert(xhr.responseText);
               const bookingSequence = Number(xhr.responseText.match(/\d+/)[0]);
               const newStudentForm = generateNewStudentForm(bookingSequence);
@@ -174,7 +174,24 @@
               newStudentForm.addEventListener('submit', e => {
                 e.preventDefault();
 
-                addNewStudent(newStudentForm);
+                const newStudentData = new FormData(newStudentForm);
+                const json = JSON.stringify(formDataToJson(newStudentData));
+
+                const xhr = new XMLHttpRequest();
+                xhr.open(newStudentForm.method, newStudentForm.action);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.addEventListener('load', e => {
+                  alert(xhr.responseText);
+
+                  if (xhr.status === 201) {
+                    newStudentForm.reset();
+                    newScheduleData.set('student_email', newStudentData.get('email'));
+                    form.dispatchEvent(new Event('submit', { cancelable: true }));
+                  }
+                });
+
+                xhr.send(json);
               });
             }
           });
@@ -195,14 +212,14 @@
           <label>Please select one schedule</label>
         </dt>
         <dd>
-          <select></select>
+          <select name='id'></select>
         </dd>
 
         <dt>
           <label>Email:</label>
         </dt>
         <dd>
-          <input type='text' id='input-email'>
+          <input type='text' name='student_email'>
         </dd>
       </dl>
 
